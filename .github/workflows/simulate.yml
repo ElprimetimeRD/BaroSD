@@ -1,0 +1,29 @@
+name: Probar red (simulador)
+
+on:
+  workflow_dispatch:
+    inputs:
+      evento:
+        description: "Inyectar microrráfaga sintética"
+        type: boolean
+        default: true
+      minutos:
+        description: "Duración de la simulación"
+        default: "12"
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install httpx
+      - name: Correr simulador contra Render
+        env:
+          BAROSD_API_URL: ${{ secrets.BAROSD_API_URL }}
+          BAROSD_API_KEY: ${{ secrets.BAROSD_API_KEY }}
+        run: |
+          python simulator.py \
+            ${{ inputs.evento == true && '--event' || '' }} \
+            --minutes ${{ inputs.minutos }}
