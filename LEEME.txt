@@ -1,0 +1,14 @@
+PARA DESPUÉS (cuando el server ya esté vivo):
+
+La app Android tiene 12 archivos en subcarpetas — GitHub móvil no sube
+carpetas, así que va empaquetada:
+
+1. Sube "android.b64" a la RAÍZ del repo (Add file → Upload files).
+2. Crea el workflow: Add file → Create new file → en el nombre escribe
+   .github/workflows/unpack-android.yml   (los "/" crean las carpetas)
+   → pega el contenido de unpack-android.yml → Commit.
+3. Actions → "Desempacar app Android" → Run workflow.
+   Eso crea la carpeta android/ completa en el repo y borra el .b64.
+4. Crea igual .github/workflows/build-apk.yml con el contenido de
+   build-apk.yml → con los Secrets BAROSD_API_URL y BAROSD_API_KEY
+   ya puestos, Actions → Build APK → descarga e instala en el Pixel.
